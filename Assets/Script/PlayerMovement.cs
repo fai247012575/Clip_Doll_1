@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // 需要引入這個命名空間來使用 Text (Legacy)
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,8 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject targetObject = null;
     private GameObject squareObject = null;
-    private Text scoreText = null; // 用於顯示分數的 Text (Legacy)
-    private int score = 0; // 分數計數器
+    private Text scoreText = null;
+    private int score = 1; // 預設分數設為 1
 
     // Start is called before the first frame update
     void Start()
@@ -44,15 +44,14 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("Square Object not found in Hierarchy!");
         }
 
-        // 查找 Text (Legacy) 物件
-        scoreText = GameObject.Find("ScoreText").GetComponent<Text>(); // 假設 Text 名稱為 "ScoreText"
+        scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         if (scoreText == null)
         {
             Debug.LogError("ScoreText not found in Hierarchy or missing Text component!");
         }
         else
         {
-            UpdateScoreText(); // 初始化分數顯示
+            UpdateScoreText(); // 初始化顯示預設分數 1
         }
     }
 
@@ -97,11 +96,16 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 newPosition = transform.position;
 
-        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+        // 只有當 score > 0 時才允許操作
+        if (score > 0 && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)))
         {
             isMovingDown = true;
             isReturning = false;
             isPausedX = true;
+
+            // 每次觸摸或點擊減少 1 分
+            score -= 1;
+            UpdateScoreText();
         }
 
         if (isMovingDown)
