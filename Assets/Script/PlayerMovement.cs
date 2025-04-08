@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
         minY = bottomLeft.y + 0.5f;
         maxY = topRight.y - 0.5f;
 
-        
         squareObject = GameObject.Find("Square");
         if (squareObject == null)
         {
@@ -53,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
 
         HandleYMovement();
 
-        
         CheckSquareXRange();
     }
 
@@ -116,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
                 isPausedX = false;
 
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                StopCircleFollowing();
+                // 不再這裡呼叫 StopCircleFollowing
             }
         }
 
@@ -127,13 +125,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Collision Entered with: " + collision.gameObject.name);
 
-        
         targetObject = collision.gameObject;
         isReturning = true;
         isMovingDown = false;
         isPausedX = true;
 
-        
         if (collision.gameObject.CompareTag("Circle"))
         {
             CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
@@ -148,12 +144,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Collision Staying with: " + collision.gameObject.name);
 
-        
         isReturning = true;
         isMovingDown = false;
         isPausedX = true;
 
-        
         if (collision.gameObject.CompareTag("Circle"))
         {
             CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
@@ -167,28 +161,25 @@ public class PlayerMovement : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         Debug.Log("Collision Exited with: " + collision.gameObject.name);
-
-        
     }
 
     void CheckSquareXRange()
     {
         if (squareObject != null)
         {
-            
             float playerX = transform.position.x;
 
-            
             Vector3 squarePosition = squareObject.transform.position;
             Vector3 squareScale = squareObject.transform.lossyScale;
             float squareWidth = squareScale.x;
             float squareMinX = squarePosition.x - (squareWidth / 2f);
             float squareMaxX = squarePosition.x + (squareWidth / 2f);
 
-            
             if (playerX >= squareMinX && playerX <= squareMaxX)
             {
                 Debug.Log("Player entered Square's X range. Player X: " + playerX + ", Square X Range: [" + squareMinX + ", " + squareMaxX + "]");
+                // 當進入 Square X 範圍時停止 Circle 跟隨
+                StopCircleFollowing();
             }
         }
     }

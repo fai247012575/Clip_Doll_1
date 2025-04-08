@@ -27,15 +27,12 @@ public class CircleBoundary : MonoBehaviour
         {
             FollowPlayer();
         }
-        
     }
 
-    
     void FixedUpdate()
     {
         if (!isFollowing && rb != null)
         {
-            
             Vector2 position = rb.position;
             Camera cam = Camera.main;
             Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
@@ -76,11 +73,10 @@ public class CircleBoundary : MonoBehaviour
         isFollowing = false;
         if (rb != null)
         {
-            
+            // 恢復物理控制，但不干預
         }
     }
 
-    
     void FollowPlayer()
     {
         if (targetPlayer != null)
@@ -88,7 +84,6 @@ public class CircleBoundary : MonoBehaviour
             Vector3 targetPosition = targetPlayer.transform.position;
             Vector3 newPosition = targetPosition + offset;
 
-            
             Camera cam = Camera.main;
             Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
             Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
@@ -101,7 +96,6 @@ public class CircleBoundary : MonoBehaviour
             newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
             newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
 
-            
             if (rb != null)
             {
                 rb.MovePosition(newPosition);
@@ -111,7 +105,6 @@ public class CircleBoundary : MonoBehaviour
                 transform.position = newPosition;
             }
 
-            
             PlayerMovement playerScript = targetPlayer.GetComponent<PlayerMovement>();
             if (playerScript != null && playerScript.isReturning)
             {
