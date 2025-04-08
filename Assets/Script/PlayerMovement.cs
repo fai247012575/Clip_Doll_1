@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isPausedX = false;
 
     private GameObject targetObject = null;
+    private GameObject squareObject = null;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,13 @@ public class PlayerMovement : MonoBehaviour
         maxX = topRight.x - 0.5f;
         minY = bottomLeft.y + 0.5f;
         maxY = topRight.y - 0.5f;
+
+        
+        squareObject = GameObject.Find("Square");
+        if (squareObject == null)
+        {
+            Debug.LogError("Square Object not found in Hierarchy!");
+        }
     }
 
     // Update is called once per frame
@@ -44,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         HandleYMovement();
+
+        
+        CheckSquareXRange();
     }
 
     void MoveOnX()
@@ -114,15 +125,15 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision Entered with: " + collision.gameObject.name); // 記錄碰撞開始
+        Debug.Log("Collision Entered with: " + collision.gameObject.name);
 
-        // 任何碰撞都會觸發返回
+        
         targetObject = collision.gameObject;
         isReturning = true;
         isMovingDown = false;
         isPausedX = true;
 
-        // 如果是 Circle，通知它跟隨
+        
         if (collision.gameObject.CompareTag("Circle"))
         {
             CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
@@ -135,29 +146,51 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log("Collision Staying with: " + collision.gameObject.name); // 記錄碰撞持續
+        Debug.Log("Collision Staying with: " + collision.gameObject.name);
 
-        // 保持返回狀態
+        
         isReturning = true;
         isMovingDown = false;
         isPausedX = true;
 
-        // 如果是 Circle，保持跟隨
+        
         if (collision.gameObject.CompareTag("Circle"))
         {
             CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
             if (circleScript != null && targetObject == collision.gameObject)
             {
-                circleScript.StartFollowing(this.gameObject); // 確保持續跟隨
+                circleScript.StartFollowing(this.gameObject);
             }
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        Debug.Log("Collision Exited with: " + collision.gameObject.name); // 記錄碰撞結束
+        Debug.Log("Collision Exited with: " + collision.gameObject.name);
 
-        // 碰撞結束時不做任何操作，讓 Circle 繼續跟隨直到 Player 返回 defaultY
+        
+    }
+
+    void CheckSquareXRange()
+    {
+        if (squareObject != null)
+        {
+            
+            float playerX = transform.position.x;
+
+            
+            Vector3 squarePosition = squareObject.transform.position;
+            Vector3 squareScale = squareObject.transform.lossyScale;
+            float squareWidth = squareScale.x;
+            float squareMinX = squarePosition.x - (squareWidth / 2f);
+            float squareMaxX = squarePosition.x + (squareWidth / 2f);
+
+            
+            if (playerX >= squareMinX && playerX <= squareMaxX)
+            {
+                Debug.Log("Player entered Square's X range. Player X: " + playerX + ", Square X Range: [" + squareMinX + ", " + squareMaxX + "]");
+            }
+        }
     }
 
     void UpdateBoundariesToMatchTarget()
