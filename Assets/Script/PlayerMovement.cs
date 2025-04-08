@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isReturning = false;
     private bool isPausedX = false;
 
-    private GameObject targetObject = null; // 用於儲存 Circle
+    private GameObject targetObject = null;
 
     // Start is called before the first frame update
     void Start()
@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
                 isPausedX = false;
 
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                StopCircleFollowing(); // Player 回到 defaultY 時停止 Circle 跟隨
+                StopCircleFollowing();
             }
         }
 
@@ -114,33 +114,49 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Collision Entered with: " + collision.gameObject.name); // 記錄碰撞開始
+
+        // 任何碰撞都會觸發返回
+        targetObject = collision.gameObject;
+        isReturning = true;
+        isMovingDown = false;
+        isPausedX = true;
+
+        // 如果是 Circle，通知它跟隨
         if (collision.gameObject.CompareTag("Circle"))
         {
-            targetObject = collision.gameObject;
-            // 通知 Circle 開始跟隨 Player
             CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
             if (circleScript != null)
             {
-                circleScript.StartFollowing(this.gameObject); // 讓 Circle 跟隨 Player
+                circleScript.StartFollowing(this.gameObject);
             }
-            isReturning = true; // Player 開始返回
-            isMovingDown = false;
-            isPausedX = true;
         }
     }
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject == targetObject)
+        Debug.Log("Collision Staying with: " + collision.gameObject.name); // 記錄碰撞持續
+
+        // 保持返回狀態
+        isReturning = true;
+        isMovingDown = false;
+        isPausedX = true;
+
+        // 如果是 Circle，保持跟隨
+        if (collision.gameObject.CompareTag("Circle"))
         {
-            isReturning = true;
-            isMovingDown = false;
-            isPausedX = true;
+            CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
+            if (circleScript != null && targetObject == collision.gameObject)
+            {
+                circleScript.StartFollowing(this.gameObject); // 確保持續跟隨
+            }
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
+        Debug.Log("Collision Exited with: " + collision.gameObject.name); // 記錄碰撞結束
+
         // 碰撞結束時不做任何操作，讓 Circle 繼續跟隨直到 Player 返回 defaultY
     }
 
@@ -176,7 +192,6 @@ public class PlayerMovement : MonoBehaviour
         maxY = topRight.y - 0.5f;
     }
 
-    // 停止 Circle 跟隨的方法
     void StopCircleFollowing()
     {
         if (targetObject != null)
@@ -184,9 +199,9 @@ public class PlayerMovement : MonoBehaviour
             CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
             if (circleScript != null)
             {
-                circleScript.StopFollowing(); // 當 Player 返回 defaultY 時停止 Circle 跟隨
+                circleScript.StopFollowing();
             }
-            targetObject = null; // 清除目標
+            targetObject = null;
         }
     }
 

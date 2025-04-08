@@ -308,6 +308,8 @@ MonoBehaviour:
   moveSpeedX: 1
   moveSpeedY: 4
   returnSpeedY: 2
+  defaultY: 0
+  isReturning: 0
 --- !u!60 &1251364499
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -348,14 +350,14 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!1001 &8554211011507666170
 PrefabInstance:
@@ -382,7 +384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8554211011097428380, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.46
+      value: -2.57
       objectReference: {fileID: 0}
     - target: {fileID: 8554211011097428380, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
       propertyPath: m_LocalPosition.z
@@ -417,8 +419,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
       propertyPath: m_BodyType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+      propertyPath: m_GravityScale
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554211011097428381, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}

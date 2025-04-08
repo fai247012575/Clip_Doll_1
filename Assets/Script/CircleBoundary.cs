@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class CircleBoundary : MonoBehaviour
 {
-    private GameObject targetPlayer = null; // 跟隨的 Player
-    private Vector3 offset; // Circle 相對於 Player 的偏移量
+    private GameObject targetPlayer = null;
+    private Vector3 offset;
     private bool isFollowing = false;
 
-    private Rigidbody2D rb; // Circle 的 Rigidbody2D
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // 獲取 Rigidbody2D
+        rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
             Debug.LogError("CircleBoundary 需要 Rigidbody2D 組件！");
@@ -27,15 +27,15 @@ public class CircleBoundary : MonoBehaviour
         {
             FollowPlayer();
         }
-        // 沒有跟隨時不干預，讓 Rigidbody2D 完全控制
+        
     }
 
-    // FixedUpdate 用於物理更新
+    
     void FixedUpdate()
     {
         if (!isFollowing && rb != null)
         {
-            // 確保位置在邊界內，但優先讓物理引擎控制
+            
             Vector2 position = rb.position;
             Camera cam = Camera.main;
             Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
@@ -52,7 +52,7 @@ public class CircleBoundary : MonoBehaviour
             if (position.y < minY) position.y = minY;
             else if (position.y > maxY) position.y = maxY;
 
-            rb.MovePosition(position); // 使用 Rigidbody 移動
+            rb.MovePosition(position);
         }
     }
 
@@ -61,10 +61,10 @@ public class CircleBoundary : MonoBehaviour
     {
         targetPlayer = player;
         isFollowing = true;
-        offset = transform.position - player.transform.position; // 計算初始偏移
+        offset = transform.position - player.transform.position;
         if (rb != null)
         {
-            rb.velocity = Vector2.zero; // 停止物理運動，開始跟隨
+            rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
         }
     }
@@ -76,11 +76,11 @@ public class CircleBoundary : MonoBehaviour
         isFollowing = false;
         if (rb != null)
         {
-            // 恢復物理控制，但不干預
+            
         }
     }
 
-    // 跟隨 Player 的邏輯
+    
     void FollowPlayer()
     {
         if (targetPlayer != null)
@@ -88,7 +88,7 @@ public class CircleBoundary : MonoBehaviour
             Vector3 targetPosition = targetPlayer.transform.position;
             Vector3 newPosition = targetPosition + offset;
 
-            // 確保不超出邊界（可選，根據需求）
+            
             Camera cam = Camera.main;
             Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
             Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
@@ -101,17 +101,17 @@ public class CircleBoundary : MonoBehaviour
             newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
             newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
 
-            // 使用 Rigidbody2D 移動
+            
             if (rb != null)
             {
                 rb.MovePosition(newPosition);
             }
             else
             {
-                transform.position = newPosition; // 備用，如果沒有 Rigidbody
+                transform.position = newPosition;
             }
 
-            // 如果 Player 正在返回，Circle 也跟隨返回
+            
             PlayerMovement playerScript = targetPlayer.GetComponent<PlayerMovement>();
             if (playerScript != null && playerScript.isReturning)
             {
