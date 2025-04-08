@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isReturning = false;
     private bool isPausedX = false;
 
-    private GameObject targetObject = null; // 用於儲存 Circle，但不再跟隨
+    private GameObject targetObject = null; // 用於儲存 Circle
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
                 isPausedX = false;
 
                 transform.rotation = Quaternion.Euler(0, 0, 0);
+                StopCircleFollowing(); // Player 回到 defaultY 時停止 Circle 跟隨
             }
         }
 
@@ -140,18 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject == targetObject)
-        {
-            targetObject = null;
-            isReturning = false;
-            isPausedX = false;
-            CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
-            if (circleScript != null)
-            {
-                circleScript.StopFollowing(); // 讓 Circle 停止跟隨
-            }
-            ResetBoundaries();
-        }
+        // 碰撞結束時不做任何操作，讓 Circle 繼續跟隨直到 Player 返回 defaultY
     }
 
     void UpdateBoundariesToMatchTarget()
@@ -184,6 +174,20 @@ public class PlayerMovement : MonoBehaviour
         maxX = topRight.x - 0.5f;
         minY = bottomLeft.y + 0.5f;
         maxY = topRight.y - 0.5f;
+    }
+
+    // 停止 Circle 跟隨的方法
+    void StopCircleFollowing()
+    {
+        if (targetObject != null)
+        {
+            CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
+            if (circleScript != null)
+            {
+                circleScript.StopFollowing(); // 當 Player 返回 defaultY 時停止 Circle 跟隨
+            }
+            targetObject = null; // 清除目標
+        }
     }
 
     void OnDrawGizmos()
