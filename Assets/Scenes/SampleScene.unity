@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 1666562138}
   - component: {fileID: 1666562137}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +622,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Score: 0'
 --- !u!222 &1666562138
 CanvasRenderer:
   m_ObjectHideFlags: 0

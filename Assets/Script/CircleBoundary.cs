@@ -129,6 +129,23 @@ public class CircleBoundary : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 當 Circle 與 Square 碰撞時
+        if (collision.gameObject.name == "Square") // 使用名稱檢查，假設 Square 名稱為 "Square"
+        {
+            // 通知 Player 增加分數
+            PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
+            if (playerScript != null)
+            {
+                playerScript.AddScore(1);
+            }
+
+            // 銷毀 Circle
+            Destroy(gameObject);
+        }
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

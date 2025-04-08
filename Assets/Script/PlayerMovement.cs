@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // 需要引入這個命名空間來使用 Text (Legacy)
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject targetObject = null;
     private GameObject squareObject = null;
+    private Text scoreText = null; // 用於顯示分數的 Text (Legacy)
+    private int score = 0; // 分數計數器
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +42,17 @@ public class PlayerMovement : MonoBehaviour
         if (squareObject == null)
         {
             Debug.LogError("Square Object not found in Hierarchy!");
+        }
+
+        // 查找 Text (Legacy) 物件
+        scoreText = GameObject.Find("ScoreText").GetComponent<Text>(); // 假設 Text 名稱為 "ScoreText"
+        if (scoreText == null)
+        {
+            Debug.LogError("ScoreText not found in Hierarchy or missing Text component!");
+        }
+        else
+        {
+            UpdateScoreText(); // 初始化分數顯示
         }
     }
 
@@ -114,7 +128,6 @@ public class PlayerMovement : MonoBehaviour
                 isPausedX = false;
 
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                // 不再這裡呼叫 StopCircleFollowing
             }
         }
 
@@ -178,7 +191,6 @@ public class PlayerMovement : MonoBehaviour
             if (playerX >= squareMinX && playerX <= squareMaxX)
             {
                 Debug.Log("Player entered Square's X range. Player X: " + playerX + ", Square X Range: [" + squareMinX + ", " + squareMaxX + "]");
-                // 當進入 Square X 範圍時停止 Circle 跟隨
                 StopCircleFollowing();
             }
         }
@@ -226,6 +238,21 @@ public class PlayerMovement : MonoBehaviour
                 circleScript.StopFollowing();
             }
             targetObject = null;
+        }
+    }
+
+    // 更新分數並顯示在 Text 上
+    public void AddScore(int points)
+    {
+        score += points;
+        UpdateScoreText();
+    }
+
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
         }
     }
 
