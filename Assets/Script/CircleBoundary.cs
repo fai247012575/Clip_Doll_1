@@ -53,7 +53,7 @@ public class CircleBoundary : MonoBehaviour
         }
     }
 
-    // 開始跟隨 Player
+    
     public void StartFollowing(GameObject player)
     {
         targetPlayer = player;
@@ -66,7 +66,7 @@ public class CircleBoundary : MonoBehaviour
         }
     }
 
-    // 停止跟隨
+    
     public void StopFollowing()
     {
         targetPlayer = null;
@@ -131,18 +131,41 @@ public class CircleBoundary : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // 當 Circle 與 Square 碰撞時
-        if (collision.gameObject.name == "Square") // 使用名稱檢查，假設 Square 名稱為 "Square"
+        if (collision.gameObject.name == "Square")
         {
-            // 通知 Player 增加分數
-            PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
-            if (playerScript != null)
-            {
-                playerScript.AddScore(1);
-            }
+            
+            ContactPoint2D contact = collision.GetContact(0);
+            Vector2 contactPoint = contact.point;
 
-            // 銷毀 Circle
-            Destroy(gameObject);
+            
+            Vector3 squarePosition = collision.gameObject.transform.position;
+            Vector3 squareScale = collision.gameObject.transform.lossyScale;
+            float squareWidth = squareScale.x;
+            float squareHeight = squareScale.y;
+            float squareTopY = squarePosition.y + (squareHeight / 2f);
+            float squareMinX = squarePosition.x - (squareWidth / 2f);
+            float squareMaxX = squarePosition.x + (squareWidth / 2f);
+
+            
+            
+            if (Mathf.Abs(contactPoint.y - squareTopY) < 0.1f && contactPoint.x >= squareMinX && contactPoint.x <= squareMaxX)
+            {
+                Debug.Log("Circle collided with Square's top edge at: " + contactPoint);
+
+                
+                PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
+                if (playerScript != null)
+                {
+                    playerScript.AddScore(1);
+                }
+
+                
+                Destroy(gameObject);
+            }
+            else
+            {
+                Debug.Log("Circle collided with Square's non-top edge at: " + contactPoint);
+            }
         }
     }
 

@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject targetObject = null;
     private GameObject squareObject = null;
     private Text scoreText = null;
-    private int score = 1; // 預設分數設為 1
+    private int score = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            UpdateScoreText(); // 初始化顯示預設分數 1
+            UpdateScoreText();
         }
     }
 
@@ -96,14 +96,14 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 newPosition = transform.position;
 
-        // 只有當 score > 0 時才允許操作
+        
         if (score > 0 && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)))
         {
             isMovingDown = true;
             isReturning = false;
             isPausedX = true;
 
-            // 每次觸摸或點擊減少 1 分
+            
             score -= 1;
             UpdateScoreText();
         }
@@ -245,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // 更新分數並顯示在 Text 上
+    
     public void AddScore(int points)
     {
         score += points;
