@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isReturning = false;
     private bool isPausedX = false;
 
-    private GameObject targetObject = null;
+    private List<GameObject> targetObjects = new List<GameObject>();
     private GameObject squareObject = null;
     private Text scoreText = null;
     private int score = 1;
@@ -96,14 +96,12 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 newPosition = transform.position;
 
-        
         if (score > 0 && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)))
         {
             isMovingDown = true;
             isReturning = false;
             isPausedX = true;
 
-            
             score -= 1;
             UpdateScoreText();
         }
@@ -142,14 +140,19 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Collision Entered with: " + collision.gameObject.name);
 
-        targetObject = collision.gameObject;
-        isReturning = true;
-        isMovingDown = false;
-        isPausedX = true;
-
         if (collision.gameObject.CompareTag("Circle"))
         {
-            CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
+            
+            if (!targetObjects.Contains(collision.gameObject))
+            {
+                targetObjects.Add(collision.gameObject);
+            }
+
+            isReturning = true;
+            isMovingDown = false;
+            isPausedX = true;
+
+            CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
             if (circleScript != null)
             {
                 circleScript.StartFollowing(this.gameObject);
@@ -161,14 +164,20 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Collision Staying with: " + collision.gameObject.name);
 
-        isReturning = true;
-        isMovingDown = false;
-        isPausedX = true;
-
         if (collision.gameObject.CompareTag("Circle"))
         {
+            
+            if (!targetObjects.Contains(collision.gameObject))
+            {
+                targetObjects.Add(collision.gameObject);
+            }
+
+            isReturning = true;
+            isMovingDown = false;
+            isPausedX = true;
+
             CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
-            if (circleScript != null && targetObject == collision.gameObject)
+            if (circleScript != null)
             {
                 circleScript.StartFollowing(this.gameObject);
             }
@@ -202,22 +211,7 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateBoundariesToMatchTarget()
     {
-        if (targetObject != null)
-        {
-            Vector3 targetPosition = targetObject.transform.position;
-            Vector3 targetScale = targetObject.transform.lossyScale;
-            Vector3 targetBounds = targetScale * 0.5f;
-
-            minX = targetPosition.x - targetBounds.x;
-            maxX = targetPosition.x + targetBounds.x;
-            minY = targetPosition.y - targetBounds.y;
-            maxY = targetPosition.y + targetBounds.y;
-
-            Vector3 newPosition = transform.position;
-            newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-            newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
-            transform.position = newPosition;
-        }
+        
     }
 
     void ResetBoundaries()
@@ -234,18 +228,22 @@ public class PlayerMovement : MonoBehaviour
 
     void StopCircleFollowing()
     {
-        if (targetObject != null)
+        
+        foreach (GameObject target in targetObjects)
         {
-            CircleBoundary circleScript = targetObject.GetComponent<CircleBoundary>();
-            if (circleScript != null)
+            if (target != null)
             {
-                circleScript.StopFollowing();
+                CircleBoundary circleScript = target.GetComponent<CircleBoundary>();
+                if (circleScript != null)
+                {
+                    circleScript.StopFollowing();
+                }
             }
-            targetObject = null;
         }
+        
+        targetObjects.Clear();
     }
 
-    
     public void AddScore(int points)
     {
         score += points;

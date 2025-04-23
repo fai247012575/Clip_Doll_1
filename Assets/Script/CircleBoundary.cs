@@ -7,6 +7,8 @@ public class CircleBoundary : MonoBehaviour
     private GameObject targetPlayer = null;
     private Vector3 offset;
     private bool isFollowing = false;
+    private bool isShooting = false;
+    private float shootingDuration = 0.2f;
 
     private Rigidbody2D rb;
 
@@ -20,6 +22,22 @@ public class CircleBoundary : MonoBehaviour
         }
     }
 
+    
+    public void SetShootingState(bool state)
+    {
+        isShooting = state;
+        if (state)
+        {
+            StartCoroutine(EndShootingState());
+        }
+    }
+
+    IEnumerator EndShootingState()
+    {
+        yield return new WaitForSeconds(shootingDuration);
+        isShooting = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -31,7 +49,8 @@ public class CircleBoundary : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isFollowing && rb != null)
+        
+        if (!isFollowing && !isShooting && rb != null)
         {
             Vector2 position = rb.position;
             Camera cam = Camera.main;
@@ -53,11 +72,11 @@ public class CircleBoundary : MonoBehaviour
         }
     }
 
-    
     public void StartFollowing(GameObject player)
     {
         targetPlayer = player;
         isFollowing = true;
+        isShooting = false;
         offset = transform.position - player.transform.position;
         if (rb != null)
         {
@@ -66,14 +85,13 @@ public class CircleBoundary : MonoBehaviour
         }
     }
 
-    
     public void StopFollowing()
     {
         targetPlayer = null;
         isFollowing = false;
         if (rb != null)
         {
-            // 恢復物理控制，但不干預
+            // 恢復物理控制
         }
     }
 
@@ -133,11 +151,9 @@ public class CircleBoundary : MonoBehaviour
     {
         if (collision.gameObject.name == "Square")
         {
-            
             ContactPoint2D contact = collision.GetContact(0);
             Vector2 contactPoint = contact.point;
 
-            
             Vector3 squarePosition = collision.gameObject.transform.position;
             Vector3 squareScale = collision.gameObject.transform.lossyScale;
             float squareWidth = squareScale.x;
@@ -146,20 +162,16 @@ public class CircleBoundary : MonoBehaviour
             float squareMinX = squarePosition.x - (squareWidth / 2f);
             float squareMaxX = squarePosition.x + (squareWidth / 2f);
 
-            
-            
             if (Mathf.Abs(contactPoint.y - squareTopY) < 0.1f && contactPoint.x >= squareMinX && contactPoint.x <= squareMaxX)
             {
                 Debug.Log("Circle collided with Square's top edge at: " + contactPoint);
 
-                
                 PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
                 if (playerScript != null)
                 {
                     playerScript.AddScore(1);
                 }
 
-                
                 Destroy(gameObject);
             }
             else
