@@ -18,7 +18,7 @@ public class CircleBoundary : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
-            Debug.LogError("CircleBoundary 需要 Rigidbody2D 組件！");
+            Debug.LogError("CircleBoundary need Rigidbody2D parts！");
         }
     }
 

@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isMovingDown = false;
     public bool isReturning = false;
     private bool isPausedX = false;
+    private bool isMovingToSquare = false;
 
     private List<GameObject> targetObjects = new List<GameObject>();
     private GameObject squareObject = null;
@@ -58,9 +59,21 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isPausedX)
+        
+        if (!isMovingToSquare && targetObjects.Count > 0 && !isReturning && Mathf.Approximately(transform.position.y, defaultY))
+        {
+            isMovingToSquare = true;
+            isPausedX = true;
+            Debug.Log("Player starts moving towards Square.");
+        }
+
+        if (!isPausedX && !isMovingToSquare)
         {
             MoveOnX();
+        }
+        else if (isMovingToSquare)
+        {
+            MoveToSquare();
         }
 
         HandleYMovement();
@@ -92,6 +105,35 @@ public class PlayerMovement : MonoBehaviour
         transform.position = newPosition;
     }
 
+    void MoveToSquare()
+    {
+        if (squareObject == null) return;
+
+        Vector3 newPosition = transform.position;
+        float squareX = squareObject.transform.position.x;
+        float playerX = transform.position.x;
+
+        
+        if (playerX < squareX)
+        {
+            
+            newPosition.x += moveSpeedX * Time.deltaTime;
+        }
+        else if (playerX > squareX)
+        {
+            
+            newPosition.x -= moveSpeedX * Time.deltaTime;
+        }
+
+        
+        newPosition.y = defaultY;
+
+        
+        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+
+        transform.position = newPosition;
+    }
+
     void HandleYMovement()
     {
         Vector3 newPosition = transform.position;
@@ -101,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
             isMovingDown = true;
             isReturning = false;
             isPausedX = true;
+            isMovingToSquare = false;
 
             score -= 1;
             UpdateScoreText();
@@ -142,7 +185,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Circle"))
         {
-            
             if (!targetObjects.Contains(collision.gameObject))
             {
                 targetObjects.Add(collision.gameObject);
@@ -151,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
             isReturning = true;
             isMovingDown = false;
             isPausedX = true;
+            isMovingToSquare = false;
 
             CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
             if (circleScript != null)
@@ -166,7 +209,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Circle"))
         {
-            
             if (!targetObjects.Contains(collision.gameObject))
             {
                 targetObjects.Add(collision.gameObject);
@@ -175,6 +217,7 @@ public class PlayerMovement : MonoBehaviour
             isReturning = true;
             isMovingDown = false;
             isPausedX = true;
+            isMovingToSquare = false;
 
             CircleBoundary circleScript = collision.gameObject.GetComponent<CircleBoundary>();
             if (circleScript != null)
@@ -205,6 +248,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Player entered Square's X range. Player X: " + playerX + ", Square X Range: [" + squareMinX + ", " + squareMaxX + "]");
                 StopCircleFollowing();
+                isMovingToSquare = false;
+                isPausedX = false;
             }
         }
     }
@@ -228,7 +273,6 @@ public class PlayerMovement : MonoBehaviour
 
     void StopCircleFollowing()
     {
-        
         foreach (GameObject target in targetObjects)
         {
             if (target != null)
@@ -240,7 +284,6 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        
         targetObjects.Clear();
     }
 
