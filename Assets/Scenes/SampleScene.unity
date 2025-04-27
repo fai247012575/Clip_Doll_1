@@ -253,6 +253,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1123122435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1123122437}
+  - component: {fileID: 1123122436}
+  m_Layer: 0
+  m_Name: CircleSpawner (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1123122436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123122435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34701c4029378544bbf670fb3b7d0b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleBluePrefab: {fileID: 8554211011097428377, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+  circleRedPrefab: {fileID: 8554211011097428377, guid: 85e22b519512c454ab2a2275fb85f182, type: 3}
+  circleYellowPrefab: {fileID: 8554211011097428377, guid: 029c8a88e84895c43a64095a6d4eec12, type: 3}
+--- !u!4 &1123122437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123122435}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1251364495
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +577,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef99488be6cde3b4891e99b304102332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1316227223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316227225}
+  - component: {fileID: 1316227224}
+  m_Layer: 0
+  m_Name: CircleSpawner (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1316227224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316227223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34701c4029378544bbf670fb3b7d0b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleBluePrefab: {fileID: 8554211011097428377, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+  circleRedPrefab: {fileID: 8554211011097428377, guid: 85e22b519512c454ab2a2275fb85f182, type: 3}
+  circleYellowPrefab: {fileID: 8554211011097428377, guid: 029c8a88e84895c43a64095a6d4eec12, type: 3}
+--- !u!4 &1316227225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316227223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.66, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1608404967
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,6 +772,100 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666562135}
   m_CullTransparentMesh: 1
+--- !u!1 &1808169943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1808169945}
+  - component: {fileID: 1808169944}
+  m_Layer: 0
+  m_Name: CircleSpawner (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1808169944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808169943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34701c4029378544bbf670fb3b7d0b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleBluePrefab: {fileID: 8554211011097428377, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+  circleRedPrefab: {fileID: 8554211011097428377, guid: 85e22b519512c454ab2a2275fb85f182, type: 3}
+  circleYellowPrefab: {fileID: 8554211011097428377, guid: 029c8a88e84895c43a64095a6d4eec12, type: 3}
+--- !u!4 &1808169945
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808169943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.49, y: 1.95, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1895111953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895111955}
+  - component: {fileID: 1895111954}
+  m_Layer: 0
+  m_Name: CircleSpawner (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1895111954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895111953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34701c4029378544bbf670fb3b7d0b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleBluePrefab: {fileID: 8554211011097428377, guid: cc0f5ab4a0d041142a14f59c25a09373, type: 3}
+  circleRedPrefab: {fileID: 8554211011097428377, guid: 85e22b519512c454ab2a2275fb85f182, type: 3}
+  circleYellowPrefab: {fileID: 8554211011097428377, guid: 029c8a88e84895c43a64095a6d4eec12, type: 3}
+--- !u!4 &1895111955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895111953}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4, y: 1.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2103667503
 GameObject:
   m_ObjectHideFlags: 0

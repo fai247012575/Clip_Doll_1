@@ -9,36 +9,25 @@ public class CircleSpawner : MonoBehaviour
     public GameObject circleYellowPrefab; // Circle yellow Prefab
 
     private List<GameObject> circlesToSpawn;
-    private int maxCircles = 3;
+    private int maxCircles = 1;
     private float spawnInterval = 0.5f;
-
-    
-    private float[] angleOptions = { 170f, 175f, 180f, 185f, 190f };
-    private float[] forceOptions = { 30f, 40f, 50f };
-    private List<int> availableAngleIndices;
-    private List<int> availableForceIndices;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         circlesToSpawn = new List<GameObject>();
-        availableAngleIndices = new List<int> { 0, 1, 2, 3, 4 };
-        availableForceIndices = new List<int> { 0, 1, 2 };
         PrepareCircleList();
         StartCoroutine(SpawnCircles());
     }
 
     void PrepareCircleList()
     {
-        
         if (circleBluePrefab == null || circleRedPrefab == null || circleYellowPrefab == null)
         {
             Debug.LogError("One or more Circle Prefabs are not assigned in CircleSpawner!");
             return;
         }
 
-        
         for (int i = 0; i < maxCircles; i++)
         {
             float randomValue = Random.value;
@@ -63,11 +52,9 @@ public class CircleSpawner : MonoBehaviour
             circlesToSpawn.Add(circleToAdd);
         }
 
-        
         ShuffleList(circlesToSpawn);
     }
 
-    
     void ShuffleList<T>(List<T> list)
     {
         for (int i = list.Count - 1; i > 0; i--)
@@ -83,10 +70,8 @@ public class CircleSpawner : MonoBehaviour
     {
         foreach (GameObject circlePrefab in circlesToSpawn)
         {
-            
             GameObject spawnedCircle = Instantiate(circlePrefab, transform.position, Quaternion.identity);
 
-            
             Rigidbody2D rb = spawnedCircle.GetComponent<Rigidbody2D>();
             if (rb == null)
             {
@@ -94,38 +79,13 @@ public class CircleSpawner : MonoBehaviour
                 continue;
             }
 
-            
-            if (availableAngleIndices.Count == 0 || availableForceIndices.Count == 0)
-            {
-                Debug.LogWarning("Ran out of unique angles or forces, using random values.");
-                availableAngleIndices = new List<int> { 0, 1, 2, 3, 4 };
-                availableForceIndices = new List<int> { 0, 1, 2 };
-            }
-
-            int angleIndex = availableAngleIndices[Random.Range(0, availableAngleIndices.Count)];
-            int forceIndex = availableForceIndices[Random.Range(0, availableForceIndices.Count)];
-            float angle = angleOptions[angleIndex];
-            float force = forceOptions[forceIndex];
-
-            
-            availableAngleIndices.Remove(angleIndex);
-            availableForceIndices.Remove(forceIndex);
-
-            
-            float angleRad = angle * Mathf.Deg2Rad;
-            Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).normalized;
-
-            
-            rb.AddForce(direction * force, ForceMode2D.Impulse);
-
-            
             CircleBoundary circleScript = spawnedCircle.GetComponent<CircleBoundary>();
             if (circleScript != null)
             {
                 circleScript.SetShootingState(true);
             }
 
-            Debug.Log($"Spawned {circlePrefab.name} at position: {transform.position}, angle: {angle}¢X, force: {force}");
+            Debug.Log($"Spawned {circlePrefab.name} at position: {transform.position}, dropping downward");
 
             yield return new WaitForSeconds(spawnInterval);
         }
